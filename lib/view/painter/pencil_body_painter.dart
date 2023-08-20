@@ -5,35 +5,40 @@ import 'package:flutter/material.dart';
 class PencilBodyPainter extends CustomPainter {
   final double startAngle;
   final double sweepAngle;
+  final double strokeWidth;
 
-  PencilBodyPainter({this.startAngle = 0, this.sweepAngle = 4 * pi / 3});
+  PencilBodyPainter({
+    this.startAngle = 0,
+    this.sweepAngle = 4 * pi / 3,
+    this.strokeWidth = 12,
+  });
 
   @override
   void paint(Canvas canvas, Size size) {
     final radius = min(size.height, size.width) / 2;
     final center = Offset(radius, radius);
     Paint pencilBody1 = Paint()
-      ..color = const Color(0xFF0C4CEF)
+      ..color = const Color(0xFFC8634E)
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 12;
+      ..strokeWidth = strokeWidth;
     Paint pencilBody2 = Paint()
-      ..color = const Color(0xFF0C4CEF).withOpacity(0.85)
+      ..color = const Color(0xFF141110)
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 12;
+      ..strokeWidth = strokeWidth;
     Paint pencilBody3 = Paint()
-      ..color = const Color(0xFF0C4CEF).withOpacity(0.5)
+      ..color = const Color(0xFFC4452D)
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 12;
+      ..strokeWidth = strokeWidth;
 
     canvas.drawArc(
-      Rect.fromCircle(center: center, radius: radius - 24),
+      Rect.fromCircle(center: center, radius: radius - 2 * strokeWidth),
       startAngle, // -120 degree
       sweepAngle, // how much to sweep from start angle // 240 degree
       false,
       pencilBody1,
     );
     canvas.drawArc(
-      Rect.fromCircle(center: center, radius: radius - 12),
+      Rect.fromCircle(center: center, radius: radius - strokeWidth),
       startAngle, // -120 degree
       sweepAngle, // how much to sweep from start angle // 240 degree
       false,

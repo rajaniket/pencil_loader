@@ -5,8 +5,9 @@ import 'package:flutter/material.dart';
 class PencilStrokePainter extends CustomPainter {
   final double startAngle;
   final double sweepAngle;
+  final double strokeWidth;
 
-  PencilStrokePainter({this.startAngle = -2 * pi / 3, this.sweepAngle = 4 * pi / 3});
+  PencilStrokePainter({this.startAngle = -2 * pi / 3, this.sweepAngle = 4 * pi / 3, this.strokeWidth = 12});
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -14,13 +15,13 @@ class PencilStrokePainter extends CustomPainter {
     final center = Offset(radius, radius);
 
     Paint pencilStrokePaint = Paint()
-      ..color = Colors.white
+      ..color = const Color(0xFF6E6C6C)
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 5
+      ..strokeWidth = strokeWidth / 2
       ..strokeCap = StrokeCap.round;
 
     canvas.drawArc(
-      Rect.fromCircle(center: center, radius: radius - 10),
+      Rect.fromCircle(center: center, radius: radius - 6),
       startAngle,
       sweepAngle, // how much to sweep from start angle // 240 degree
       false,
