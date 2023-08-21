@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pencil_loader/view/page/home_page.dart';
 
-import 'view/painter/pencil_painter.dart';
-
 void main() {
   runApp(const MyApp());
 }

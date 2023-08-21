@@ -17,7 +17,7 @@ class PencilEraserPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final radius = min(size.height, size.width) / 2;
     final center = Offset(radius, radius);
-    final double eraserHeight = 7 * strokeWidth;
+    final double eraserHeight = 6 * strokeWidth;
     final double eraserWidth = 3 * strokeWidth;
     final double eraserHolderHeight = 0.7 * eraserHeight;
 
@@ -25,7 +25,7 @@ class PencilEraserPainter extends CustomPainter {
       ..color = const Color(0xFF2EA9F1)
       ..style = PaintingStyle.fill;
     Paint eraserBody1 = Paint()
-      ..color = const Color(0xFF029CF4)
+      ..color = const Color.fromARGB(255, 69, 143, 186)
       ..style = PaintingStyle.fill;
     Paint eraserBody2 = Paint()
       ..color = const Color.fromRGBO(242, 242, 241, 1)

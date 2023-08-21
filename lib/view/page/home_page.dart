@@ -14,76 +14,55 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
+class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin {
   late AnimationController _roationController;
   late Animation<double> _rotationAnimationFirst;
   late Animation<double> _rotationAnimationSecond;
-//  late AnimationController _strokeController;
   late Animation<double> _strokeAnimationFirst;
   late Animation<double> _strokeAnimationSecond;
-  late AnimationController _pencilSizeController;
-  late Animation<double> _pencilSizeAnimationFirst;
-  late Animation<double> _pencilSizeAnimationSecond;
+  late Animation<double> _pencilSizeAnimationSweepAngleFirst;
+  late Animation<double> _pencilSizeAnimationSweepAngleSecond;
   late Animation<double> _skewAnimation;
   double strokeWidth = 15;
+  Duration duration = const Duration(seconds: 10);
+  double startAngle = (-2 * pi / 3) + pi / 10; //
 
-  // double strokeStartAngle = -pi / 2;
-  // double strokeEndAngle = 4 * pi / 3;
-  bool isFirstRotation = false;
   @override
   void initState() {
     super.initState();
 
-    _roationController = AnimationController(vsync: this, duration: const Duration(seconds: 5))
-      ..addListener(() {
-        if (_roationController.value < 0.5) {
-          isFirstRotation = true;
-        } else {
-          isFirstRotation = false;
-        }
-      })
-      ..repeat();
-    _skewAnimation = Tween<double>(begin: 0, end: 2 * pi).animate(
-      CurvedAnimation(
-        parent: _roationController,
-        curve: const Interval(0, 1),
-      ),
-    );
-
-    _rotationAnimationFirst = Tween<double>(begin: 0, end: pi).animate(
+    _roationController = AnimationController(vsync: this, duration: duration)..repeat();
+    _strokeAnimationFirst = Tween<double>(begin: -2 * pi / 3, end: 2 * pi / 3).animate(CurvedAnimation(
+      parent: _roationController,
+      curve: const Interval(0, 0.5),
+    ));
+    _strokeAnimationSecond = Tween<double>(begin: -2 * pi / 3, end: 2 * pi / 3).animate(CurvedAnimation(
+      parent: _roationController,
+      curve: const Interval(0.5, 0.75),
+    ));
+    _rotationAnimationFirst = Tween<double>(begin: 0, end: 4 * pi / 3).animate(
       CurvedAnimation(
         parent: _roationController,
         curve: const Interval(0, 0.5),
       ),
     );
-    _rotationAnimationSecond = Tween<double>(begin: pi, end: 4 * pi).animate(
+    _rotationAnimationSecond = Tween<double>(begin: 4 * pi / 3, end: 4 * pi).animate(
       CurvedAnimation(
         parent: _roationController,
         curve: const Interval(0.5, 1),
       ),
     );
-    // _strokeController = AnimationController(
-    //   vsync: this,
-    //   duration: const Duration(seconds: 5),
-    // )..repeat();
-    _strokeAnimationFirst = Tween<double>(begin: -pi / 2, end: pi / 2).animate(CurvedAnimation(
+    _skewAnimation = Tween<double>(begin: 0, end: 2 * pi).animate(
+      CurvedAnimation(
+        parent: _roationController,
+        curve: const Interval(0.42, 0.75),
+      ),
+    );
+    _pencilSizeAnimationSweepAngleFirst = Tween<double>(begin: pi / 6, end: (2 * pi / 3) + pi / 10).animate(CurvedAnimation(
       parent: _roationController,
       curve: const Interval(0, 0.5),
     ));
-    _strokeAnimationSecond = Tween<double>(begin: -pi / 2, end: pi / 2).animate(CurvedAnimation(
-      parent: _roationController,
-      curve: const Interval(0.5, 0.75),
-    ));
-
-    _pencilSizeController = AnimationController(
-      vsync: this,
-      duration: const Duration(seconds: 5),
-    )..repeat(reverse: true);
-    _pencilSizeAnimationFirst = Tween<double>(begin: 1 * pi / 6, end: 2 * pi / 3).animate(CurvedAnimation(
-      parent: _roationController,
-      curve: const Interval(0, 0.5),
-    ));
-    _pencilSizeAnimationSecond = Tween<double>(begin: 2 * pi / 3, end: 1 * pi / 6).animate(CurvedAnimation(
+    _pencilSizeAnimationSweepAngleSecond = Tween<double>(begin: (2 * pi / 3) + pi / 10, end: pi / 6).animate(CurvedAnimation(
       parent: _roationController,
       curve: const Interval(0.5, 1),
     ));
@@ -92,7 +71,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   @override
   void dispose() {
     _roationController.dispose();
-    // _strokeController.dispose();
     super.dispose();
   }
 
@@ -114,7 +92,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                         animation: _roationController,
                         builder: (context, _) {
                           // print("--- ${5 * _roationController.value}");
-
                           return CustomPaint(
                             painter: PencilStrokePainter(
                               strokeWidth: strokeWidth,
@@ -128,28 +105,33 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                         animation: _roationController,
                         builder: (context, _) {
                           return Transform.rotate(
-                            angle: 0, //isFirstRotation ? _rotationAnimationFirst.value : _rotationAnimationSecond.value,
+                            angle: _roationController.value < 0.5 ? _rotationAnimationFirst.value : _rotationAnimationSecond.value,
                             child: Stack(
                               fit: StackFit.expand,
                               children: [
                                 CustomPaint(
-                                  painter: PencilBodyPainter(
-                                    strokeWidth: strokeWidth,
-                                    startAngle: -pi / 2,
-                                    sweepAngle: (isFirstRotation ? _pencilSizeAnimationFirst.value : _pencilSizeAnimationSecond.value),
-                                  ),
-                                ),
+                                    painter: PencilBodyPainter(
+                                  strokeWidth: strokeWidth,
+                                  startAngle: (-2 * pi / 3) + pi / 10,
+                                  sweepAngle: _roationController.value < 0.5
+                                      ? _pencilSizeAnimationSweepAngleFirst.value
+                                      : _pencilSizeAnimationSweepAngleSecond.value,
+                                )),
                                 CustomPaint(
                                   painter: PencilEraserPainter(
                                     strokeWidth: strokeWidth,
-                                    sweepAngle: -pi / 2 + (isFirstRotation ? _pencilSizeAnimationFirst.value : _pencilSizeAnimationSecond.value),
-                                    skewAngle: 0.15 * sin(3 * _skewAnimation.value),
+                                    sweepAngle: (-2 * pi / 3) +
+                                        pi / 10 +
+                                        (_roationController.value < 0.5
+                                            ? _pencilSizeAnimationSweepAngleFirst.value
+                                            : _pencilSizeAnimationSweepAngleSecond.value),
+                                    skewAngle: 0.15 * sin(2 * duration.inSeconds * _skewAnimation.value),
                                   ),
                                 ),
                                 CustomPaint(
                                   painter: PencilPointPainter(
                                     strokeWidth: strokeWidth,
-                                    startAngle: -pi / 2,
+                                    startAngle: -2 * pi / 3 + pi / 10,
                                   ),
                                 ),
                               ],

@@ -21,9 +21,9 @@ class PencilStrokePainter extends CustomPainter {
       ..strokeCap = StrokeCap.round;
 
     canvas.drawArc(
-      Rect.fromCircle(center: center, radius: radius - 6),
+      Rect.fromCircle(center: center, radius: radius - strokeWidth / 1.8),
       startAngle,
-      sweepAngle, // how much to sweep from start angle // 240 degree
+      sweepAngle,
       false,
       pencilStrokePaint,
     );

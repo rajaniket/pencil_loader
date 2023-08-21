@@ -31,7 +31,7 @@ class PencilPointPainter extends CustomPainter {
 
     Offset trianglePointA = center.translate(innerRadius * cos(startAngle), innerRadius * sin(startAngle));
     Offset trianglePointB = center.translate(outerRadius * cos(startAngle), outerRadius * sin(startAngle));
-    Offset trianglePointC = center.translate(midRadius * cos(startAngle - pi / 10), midRadius * sin(startAngle - pi / 10));
+    Offset trianglePointC = center.translate(midRadius * cos(startAngle - pi / 9), midRadius * sin(startAngle - pi / 9));
     trinaglePath.addPolygon([trianglePointA, trianglePointB, trianglePointC], true);
     canvas.drawPath(trinaglePath, pencilPoint);
 
@@ -50,7 +50,6 @@ class PencilPointPainter extends CustomPainter {
     //cliping the black portion
     canvas.clipRect(Rect.fromCircle(center: trianglePointC, radius: strokeWidth));
     canvas.drawPath(trinaglePath, pencilPointDark);
-    canvas.clipRect(Rect.fromCircle(center: trianglePointC, radius: 10));
     //poping the previous state from the stack
     canvas.restore();
   }

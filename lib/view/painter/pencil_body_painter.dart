@@ -18,7 +18,7 @@ class PencilBodyPainter extends CustomPainter {
     final radius = min(size.height, size.width) / 2;
     final center = Offset(radius, radius);
     Paint pencilBody1 = Paint()
-      ..color = const Color(0xFFC8634E)
+      ..color = const Color(0xFFC4452D)
       ..style = PaintingStyle.stroke
       ..strokeWidth = strokeWidth;
     Paint pencilBody2 = Paint()
@@ -26,28 +26,28 @@ class PencilBodyPainter extends CustomPainter {
       ..style = PaintingStyle.stroke
       ..strokeWidth = strokeWidth;
     Paint pencilBody3 = Paint()
-      ..color = const Color(0xFFC4452D)
+      ..color = const Color(0xFFC8634E)
       ..style = PaintingStyle.stroke
       ..strokeWidth = strokeWidth;
 
     canvas.drawArc(
       Rect.fromCircle(center: center, radius: radius - 2 * strokeWidth),
-      startAngle, // -120 degree
-      sweepAngle, // how much to sweep from start angle // 240 degree
+      startAngle,
+      sweepAngle,
       false,
       pencilBody1,
     );
     canvas.drawArc(
       Rect.fromCircle(center: center, radius: radius - strokeWidth),
-      startAngle, // -120 degree
-      sweepAngle, // how much to sweep from start angle // 240 degree
+      startAngle,
+      sweepAngle,
       false,
       pencilBody2,
     );
     canvas.drawArc(
       Rect.fromCircle(center: center, radius: radius),
-      startAngle, // -120 degree
-      sweepAngle, // how much to sweep from start angle // 240 degree
+      startAngle,
+      sweepAngle,
       false,
       pencilBody3,
     );
