@@ -21,42 +21,61 @@ class PencilEraserPainter extends CustomPainter {
     final double eraserWidth = 3 * strokeWidth;
     final double eraserHolderHeight = 0.7 * eraserHeight;
 
-    Paint eraserBody = Paint()
-      ..color = const Color(0xFF2EA9F1)
+    Paint eraserBodyPaint = Paint()
+      ..color = const Color(0xFF7B84FC)
       ..style = PaintingStyle.fill;
-    Paint eraserBody1 = Paint()
-      ..color = const Color.fromARGB(255, 69, 143, 186)
+    Paint eraserBodyShadowPaint = Paint()
+      ..color = const Color(0xFF636CEE)
       ..style = PaintingStyle.fill;
-    Paint eraserBody2 = Paint()
-      ..color = const Color.fromRGBO(242, 242, 241, 1)
+    Paint eraserHolderPaint = Paint()
+      ..color = const Color(0xFFF2F2F1)
       ..style = PaintingStyle.fill;
-    Paint eraserBodyLines = Paint()
-      ..color = const Color.fromARGB(255, 201, 197, 197)
+    Paint eraserHolderLinePaint = Paint()
+      ..color = const Color(0xFFC9C5C5)
       ..style = PaintingStyle.fill;
-    Paint eraserBody3 = Paint()
+    Paint eraserHolderCoverPaint1 = Paint()
       ..color = Colors.grey.withOpacity(0.7)
       ..style = PaintingStyle.fill;
-    Paint eraserBody4 = Paint()
+    Paint eraserHolderCoverPaint2 = Paint()
       ..color = Colors.grey.withOpacity(0.4)
       ..style = PaintingStyle.fill;
 
+    // Calculate the center of the eraser
     Offset eraserCenter = center.translate((radius - strokeWidth) * cos(sweepAngle), (radius - strokeWidth) * sin(sweepAngle));
+
+    // Shift the origin of the canvas to the eraser center
     canvas.translate(eraserCenter.dx, eraserCenter.dy); // new origin
+
+    // Rotate the canvas as per the sweepAngle
     canvas.rotate(sweepAngle);
-    canvas.transform(Matrix4.skewX(skewAngle).storage); //-pi / 8
-    // making a rectangle covering the whole eraser then clipping it from eraser's center to removing extra part, this has also been done to keep the base of rubber fixed as center portion remain static if skewAngle change.
+
+    // skewing the visible portion of the eraser
+    canvas.transform(Matrix4.skewX(skewAngle).storage);
+
+    // Create a rectangle covering the entire eraser, and then apply clipping to remove the excess parts.
+    // Clipping is performed from the center of the eraser. This technique maintains the base of the eraser fixed at the center,
+    // ensuring that the center portion remains static even if the skewAngle changes.
     canvas.clipRect(Rect.fromLTWH(-eraserWidth, 0, eraserHeight * 2, eraserHeight)); // clipping the rubber from center,
-    canvas.drawRRect(RRect.fromRectXY(Rect.fromCenter(center: const Offset(0, 0), width: eraserWidth, height: eraserHeight), 7, 7), eraserBody);
+
+    // Draw the main body of the eraser
+
+    canvas.drawRRect(RRect.fromRectXY(Rect.fromCenter(center: const Offset(0, 0), width: eraserWidth, height: eraserHeight), 7, 7), eraserBodyPaint);
+
+    // Draw shadow on the eraser body
     canvas.drawRRect(
         RRect.fromRectAndCorners(Rect.fromCenter(center: Offset(-strokeWidth, 0), width: 0.8 * strokeWidth, height: eraserHeight),
             bottomLeft: const Radius.circular(7), topLeft: const Radius.circular(7)),
-        eraserBody1);
+        eraserBodyShadowPaint);
 
-    canvas.drawRect(Rect.fromCenter(center: const Offset(0, 0), width: eraserWidth, height: eraserHolderHeight), eraserBody2);
-    canvas.drawRect(Rect.fromCenter(center: Offset(0, eraserHolderHeight / 3), width: eraserWidth, height: 2), eraserBodyLines);
-    canvas.drawRect(Rect.fromCenter(center: Offset(0, eraserHolderHeight / 6), width: eraserWidth, height: 2), eraserBodyLines);
-    canvas.drawRect(Rect.fromCenter(center: Offset(-strokeWidth, 0), width: 0.9 * strokeWidth, height: eraserHolderHeight), eraserBody3);
-    canvas.drawRect(Rect.fromCenter(center: const Offset(0, 0), width: strokeWidth, height: eraserHolderHeight), eraserBody4);
+    // Draw the eraser holder
+    canvas.drawRect(Rect.fromCenter(center: const Offset(0, 0), width: eraserWidth, height: eraserHolderHeight), eraserHolderPaint);
+    // Draw lines on the eraser holder
+    canvas.drawRect(Rect.fromCenter(center: Offset(0, eraserHolderHeight / 3), width: eraserWidth, height: 2), eraserHolderLinePaint);
+    canvas.drawRect(Rect.fromCenter(center: Offset(0, eraserHolderHeight / 6), width: eraserWidth, height: 2), eraserHolderLinePaint);
+
+    // Draw covers on the eraser holder
+    canvas.drawRect(Rect.fromCenter(center: Offset(-strokeWidth, 0), width: 0.9 * strokeWidth, height: eraserHolderHeight), eraserHolderCoverPaint1);
+    canvas.drawRect(Rect.fromCenter(center: const Offset(0, 0), width: strokeWidth, height: eraserHolderHeight), eraserHolderCoverPaint2);
   }
 
   @override

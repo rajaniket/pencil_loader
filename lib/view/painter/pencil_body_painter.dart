@@ -15,46 +15,54 @@ class PencilBodyPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
+    // Calculate radius and center of the drawing area
     final radius = min(size.height, size.width) / 2;
     final center = Offset(radius, radius);
-    Paint pencilBody1 = Paint()
+
+    // Define different paints for the three segments of the pencil body
+    Paint pencilBodyPaint1 = Paint()
       ..color = const Color(0xFFC4452D)
       ..style = PaintingStyle.stroke
       ..strokeWidth = strokeWidth;
-    Paint pencilBody2 = Paint()
+    Paint pencilBodyPaint2 = Paint()
       ..color = const Color(0xFF141110)
       ..style = PaintingStyle.stroke
       ..strokeWidth = strokeWidth;
-    Paint pencilBody3 = Paint()
+    Paint pencilBodyPaint3 = Paint()
       ..color = const Color(0xFFC8634E)
       ..style = PaintingStyle.stroke
       ..strokeWidth = strokeWidth;
 
+    // Draw the first segment of the pencil body
     canvas.drawArc(
       Rect.fromCircle(center: center, radius: radius - 2 * strokeWidth),
       startAngle,
       sweepAngle,
       false,
-      pencilBody1,
+      pencilBodyPaint1,
     );
+
+    // Draw the second segment of the pencil body
     canvas.drawArc(
       Rect.fromCircle(center: center, radius: radius - strokeWidth),
       startAngle,
       sweepAngle,
       false,
-      pencilBody2,
+      pencilBodyPaint2,
     );
+
+    // Draw the third segment of the pencil body
     canvas.drawArc(
       Rect.fromCircle(center: center, radius: radius),
       startAngle,
       sweepAngle,
       false,
-      pencilBody3,
+      pencilBodyPaint3,
     );
   }
 
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    return true;
+    return true; // Always repaint when requested
   }
 }

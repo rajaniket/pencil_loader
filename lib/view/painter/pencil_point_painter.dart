@@ -16,7 +16,7 @@ class PencilPointPainter extends CustomPainter {
     final center = Offset(radius, radius);
 
     Paint pencilPoint = Paint()
-      ..color = const Color(0xFFF2B66C)
+      ..color = const Color(0xFFF7B96E)
       ..style = PaintingStyle.fill;
 
     Paint pencilPointShadow = Paint()
@@ -34,13 +34,13 @@ class PencilPointPainter extends CustomPainter {
     Offset trianglePointC = center.translate(midRadius * cos(startAngle - pi / 9), midRadius * sin(startAngle - pi / 9));
     trinaglePath.addPolygon([trianglePointA, trianglePointB, trianglePointC], true);
     canvas.drawPath(trinaglePath, pencilPoint);
-
+    //drawing nib shadow
     Path trinaglePathShadow = Path();
     double radiusForShadow = innerRadius + strokeWidth;
     trianglePointB = center.translate(radiusForShadow * cos(startAngle), radiusForShadow * sin(startAngle));
     trinaglePathShadow.addPolygon([trianglePointA, trianglePointB, trianglePointC], true);
     canvas.drawPath(trinaglePathShadow, pencilPointShadow);
-
+    // drawing nib
     Paint pencilPointDark = Paint()
       ..color = Colors.black
       ..style = PaintingStyle.fill;
