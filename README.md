@@ -1,16 +1,10 @@
-# pencil_loader
+# Pencil Loader
 
-A new Flutter project.
+🚀 Welcome to the Pencil Loader for Flutter repository! This fun and elegant animation mimics the movement of a pencil, perfect for adding a touch of creativity to your Flutter applications.
 
-## Getting Started
+## Preview
 
-This project is a starting point for a Flutter application.
+https://github.com/rajaniket/pencil_loader/assets/40004815/b5250e93-de33-4bde-b3cc-0117c1cb1ba1
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
